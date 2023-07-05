@@ -72,13 +72,13 @@ export class EditUserComponent implements OnInit {
               this.updateLocalStorage(formValue)
               this.updateFirebase(formValue)
               //this.service.insertImageDetails(formValue);
-              this.updateThreadsUserName()
+              this.updateThreadsUserName(formValue)
             })
           })).subscribe();
       } else {
         this.updateLocalStorage(formValue)
         this.updateWithoutImg(formValue)
-        this.updateThreadsUserName()
+        this.updateThreadsUserName(formValue)
       }
     }
 
@@ -112,15 +112,66 @@ export class EditUserComponent implements OnInit {
   }
 
 
-  updateThreadsUserName() {
+  updateThreadsUserName(formValue) {
     let channelIds = []
     this.firestore
-    .collection('channels')
-    .valueChanges({idField: 'ID'})
-    .subscribe((changes) => {
-      channelIds.push(changes)
-      console.log(channelIds)
-    })
+      .collection('channels')
+      .valueChanges({ idField: 'ID' })
+      .subscribe((changes) => {
+        channelIds.push(changes)
+        console.log(channelIds)
+       // this.update(channelIds)
+      })
+      
+    
+    /*  let channelIds = []
+      this.firestore
+        .collection('channels')
+        .valueChanges({ idField: 'ID' })
+        .subscribe((changes) => {
+          channelIds.push(changes)
+          console.log(channelIds)
+          channelIds[0].forEach(element => {
+            console.log(element)
+            this.firestore
+              .collection('channels')
+              .doc(element.ID)
+              .collection('threads')
+              .valueChanges({ idField: 'ID' })
+              .subscribe((changes) => {
+                changes.forEach(element => {
+                  console.log(element.ID)
+                  //console.log(element['userId'])
+                  //  console.log(this.uID)
+                  if (element['userId'] == this.uID) {
+                    console.log(element['userName'])
+                    console.log(formValue.firstname + ' ' + formValue.lastname)
+                    element['userName'] = formValue.firstname + ' ' + formValue.lastname
+                    this.update(element.ID, formValue)
+                  }
+                });
+              })
+          });
+        })*/
+  }
+
+  update(channelIds) {
+    let threadsId = []
+    channelIds[0].forEach(element => {
+      this.firestore
+      .collection('channels')
+      .doc(element.ID)
+      .collection('threads')
+      .valueChanges({idField: 'ID'})
+      .subscribe((changes) => {
+        threadsId.push(changes)
+        threadsId
+        console.log(threadsId)
+        this.firestore
+        .collection('threads')
+        .doc
+      })
+      });
   }
 
 
