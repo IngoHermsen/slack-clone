@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { DialogModule } from 'primeng/dialog';
 import { Channel } from 'src/app/core/models/channel.class';
 import { MatDialogRef } from '@angular/material/dialog';
 

@@ -29,9 +29,6 @@ export class ImagesService implements OnInit {
   insertImageDetails(imageDetails) {
     this.imageDetailList = this.firebase.list(`${this.userName}` + '/');
     this.imageDetailList.push(imageDetails.imageUrl);
-    console.log(imageDetails)
-    console.log(this.imageDetailList)
-    console.log(imageDetails.imageUrl)
     this.imgUrl = imageDetails.imageUrl
   }
 

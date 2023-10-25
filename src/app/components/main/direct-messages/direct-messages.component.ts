@@ -38,27 +38,11 @@ export class DirectMessagesComponent implements OnInit {
       })
   }
 
-  getUserImgUrl() {
-    /*
-    this.allChats.forEach(element => {
-      this.userInfo.push(element.userInfo)
-    });
-    this.userInfo.forEach(element => {
-      this.imgUrls.push(element[0].userImgUrl)
-    }); 
-    */
-    /*  this.users.forEach(element => {
-        this.userInfo.push(element.userImgUrl)
-      }); */
-  }
   // IDs vergleichen. und dann imgUrl updaten
 
   updateChatData() {
     this.allChats.forEach(element => {
-      console.log(this.users.length)
       for (let i = 0; i < this.users.length; i++) {
-        // console.log(element.userId)
-        // console.log(this.users[i].uid)
         if (element.userId == this.users[i].uid) {
           element.userImgUrl = this.users[i].userImgUrl
           element.chatName = this.users[i].displayName

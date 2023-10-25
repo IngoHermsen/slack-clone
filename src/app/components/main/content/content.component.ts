@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Thread } from 'src/app/core/models/thread.class';
 import { ThreadService } from 'src/app/core/services/thread.service';
 

@@ -1,8 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Thread } from '../models/thread.class';
-import { BehaviorSubject, Observable, Subject, concatMap, from, map, mergeMap, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { doc, docData, docSnapshots } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -44,11 +43,6 @@ export class ThreadService implements OnInit {
     const threadDoc = threadsCollection.doc(object.tId);
 
     return threadDoc;
-  }
-
-  hello() {
-    console.log("hello");
-    
   }
   
 }

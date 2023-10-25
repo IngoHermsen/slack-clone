@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Chat } from 'src/app/core/models/chats.class';
-import { User } from 'src/app/core/models/user.class';
 
 @Component({
   selector: 'app-create-chat',
@@ -41,7 +40,6 @@ export class CreateChatComponent implements OnInit {
   selectUser(i: any) {
     if (!this.selectedUsers.includes(this.allUsers[i])) {
       this.selectedUsers.push(this.allUsers[i])
-      console.log(this.selectedUsers)
     }
   }
 

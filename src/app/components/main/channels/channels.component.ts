@@ -1,11 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Channel } from 'src/app/core/models/channel.class';
 import { CreateChannelComponent } from '../create-channel/create-channel.component';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { ChannelService } from 'src/app/core/services/channel.service';
+
 
 @Component({
   selector: 'app-channels',

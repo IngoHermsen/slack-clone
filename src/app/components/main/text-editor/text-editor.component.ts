@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -72,7 +72,6 @@ export class TextEditorComponent implements OnInit {
   }
 
   sendMessage() {
-    console.log("test")
   }
 
   getChannelId() {
@@ -161,7 +160,6 @@ export class TextEditorComponent implements OnInit {
 
   updateRepliesOfThread(reply: any) {
 
-    console.log('reply obj', reply);
       this.channelService.collectionRef.doc(this.thrdObj.channelId)
       .collection('threads')
       .doc(reply.channelId)

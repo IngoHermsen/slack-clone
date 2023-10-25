@@ -82,7 +82,6 @@ export class ThreadListComponent implements OnInit {
   }
 
   removeIdFromView(i) {
-    console.log(i);
     this.threads.splice(i, 1)
   }
 
@@ -98,8 +97,6 @@ export class ThreadListComponent implements OnInit {
   }
 
   initFullList() {
-    console.log('init full list');
-
     this.firestore.collection('channels')
       .get()
       .pipe(
@@ -111,15 +108,11 @@ export class ThreadListComponent implements OnInit {
       )
       .subscribe({
         next: (threadData) => {
-          console.log('NExT');
-
           if (threadData['userId'] == JSON.parse(localStorage.getItem('user')).uid) {
             this.threads.push(threadData);
           }
         },
         complete: () => {
-          console.log('threads length', this.threads.length);
-          
           const hasThreads = this.threads.length == 0 ? false : true;
           this.threadService.userHasThreads.next(hasThreads)
         }

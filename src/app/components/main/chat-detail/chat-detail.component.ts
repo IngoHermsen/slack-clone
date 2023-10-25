@@ -98,7 +98,6 @@ export class ChatDetailComponent implements OnInit {
 
 
   getUserNames() {
-    console.log(this.chatData)
     this.userNames = [];
     this.userNames.push(this.chatData.chatName)
   }
@@ -139,7 +138,6 @@ export class ChatDetailComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.editorForm.get('editor').value)
     if (this.editorForm.get('editor').value != null) {
       let user = JSON.parse(localStorage.getItem('user'));
       let reply = new ChatMessage({

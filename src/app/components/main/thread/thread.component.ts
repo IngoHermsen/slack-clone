@@ -172,7 +172,6 @@ export class ThreadComponent implements OnInit {
   }
 
   public lookout() {
-    console.log('test lookout');
     return true
   }
 

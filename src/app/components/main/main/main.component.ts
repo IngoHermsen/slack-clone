@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
 
@@ -39,7 +39,6 @@ export class MainComponent implements OnInit {
 
   receiverChannelDialogClose(createChannelDialog:boolean){
     this.createChannelDialog = createChannelDialog;
-    console.log(this.createChannelDialog)
   }
 
   OnSidenavToggled(event) {
