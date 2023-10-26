@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { map, mergeMap, switchMap } from 'rxjs';
 import { Chat } from 'src/app/core/models/chats.class';
 
 @Component({
@@ -8,24 +9,33 @@ import { Chat } from 'src/app/core/models/chats.class';
   styleUrls: ['./create-chat.component.scss']
 })
 export class CreateChatComponent implements OnInit {
-
   allUsers = [];
   allDisplayNames = [];
   selectedUsers = []
   chat = new Chat;
   allChats = [];
-  enteredSearchValue: string = ''
+  enteredSearchValue: string = '';
+  activeUserId: string;
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore) {
+    this.activeUserId = JSON.parse(localStorage.getItem('user')).uid;
+
+  }
 
   ngOnInit(): void {
     this.firestore
       .collection('users')
-      .valueChanges()
-      .subscribe((changes: any) => {
-        this.allUsers = changes;
-        this.generateSearchArray();
+      .get()
+      .pipe(mergeMap(user => {        
+        return user.docs
       })
+      ).pipe(map(userDoc => {
+        const userData = userDoc.data();
+        if(userData['uid'] != this.activeUserId) {
+          this.allUsers.push(userData)
+        }
+      }))
+      .subscribe();
   }
 
   generateSearchArray() {
@@ -59,7 +69,7 @@ export class CreateChatComponent implements OnInit {
         this.chat.userImgUrl.push(element.userImgUrl)
         this.chat.userId.push(element.uid)
       });
-     // this.chat.userInfo = this.selectedUsers;
+      // this.chat.userInfo = this.selectedUsers;
       this.createChatName();
       this.addChatToFirestore();
       this.selectedUsers = [];

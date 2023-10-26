@@ -149,9 +149,7 @@ export class AuthService {
     );
 
     userRef.get().subscribe(ref => {
-      const userDocData: any = ref.data();
-      console.log(userDocData);
-      
+      const userDocData: any = ref.data();      
       const userData: User = {
         uid: user.uid,
         firstName: userDocData.firstName,
