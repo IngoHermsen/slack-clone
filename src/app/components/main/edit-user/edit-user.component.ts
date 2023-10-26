@@ -24,7 +24,7 @@ export class EditUserComponent implements OnInit {
 
   imgUrl: string // = 'https://firebasestorage.googleapis.com/v0/b/slack-clone-8b87c.appspot.com/o/Mbg1TQ3ATyYpzd71lHxckYKimEI2%2F1?alt=media&token=481f4d37-2f8a-4a6a-a940-adcb751aab41'
 
-  imgSrc: string //= './assets/gender.png'
+  imgSrc: string //= './assets/avatar.png'
   selectedImage: any = null;
   isSubmitted: boolean = false;
 
@@ -50,7 +50,7 @@ export class EditUserComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0])
       this.selectedImage = event.target.files[0]
     } else {
-      this.imgSrc = './assets/gender.png';
+      this.imgSrc = './assets/avatar.png';
       this.selectedImage = null;
     }
   }

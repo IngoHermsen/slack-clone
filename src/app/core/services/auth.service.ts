@@ -128,7 +128,7 @@ export class AuthService {
       email: user.email,
       displayName: `${firstName} ${lastName}`,
       emailVerified: user.emailVerified,
-      userImgUrl: './assets/gender.png',
+      userImgUrl: './assets/avatar.png',
     };
 
     this.userData = userData;
@@ -150,7 +150,8 @@ export class AuthService {
 
     userRef.get().subscribe(ref => {
       const userDocData: any = ref.data();
-
+      console.log(userDocData);
+      
       const userData: User = {
         uid: user.uid,
         firstName: userDocData.firstName,

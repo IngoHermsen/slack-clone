@@ -3,9 +3,9 @@
 
 <form [formGroup]="editorForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-        <label for="editor"><h3>New Thread</h3></label>
-        <quill-editor [style]="editorStyle" [modules]="config" (onContentChanged)="maxLength($event)" formControlName="editor"></quill-editor>
-        <span *ngIf="editorForm.get('editor').value">{{ 250 - editorForm.get('editor').value.length }}</span>
+        <label for="title"><h3>New Thread</h3></label>
+        <quill-editor [style]="editorStyle" [modules]="config" (onContentChanged)="checkLength()" formControlName="editor" #editor></quill-editor>
+        <span>{{ maxLength - valueLength }}</span>
     </div>
-    <button mat-button>Submit</button>
+    <div class="submit button">Submit</div>
 </form>

@@ -35,7 +35,7 @@ export class LoginDialogComponent {
   }
 
   loginAsGuest() {
-    this.authService.SignIn('john.doe@existiert.net', '123456jd')
+    this.authService.SignIn('john.doe@existiert.net', '3kdfw2Iei3nwp')
     this.loginForm?.reset();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -7,6 +7,7 @@ import { Thread } from 'src/app/core/models/thread.class';
 import 'quill-emoji/dist/quill-emoji.js';
 import { ChannelService } from 'src/app/core/services/channel.service';
 import { ThreadService } from 'src/app/core/services/thread.service';
+import { QuillEditorComponent } from 'ngx-quill';
 
 @Component({
   selector: 'app-text-editor',
@@ -17,6 +18,10 @@ export class TextEditorComponent implements OnInit {
   userDataSubscription: any;
   @Input() usageContext: string;
   thrdObj: Thread;
+  maxLength: number = 300;
+  valueLength: number = 0;
+
+  @ViewChild('editor') editor: QuillEditorComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -91,10 +96,15 @@ export class TextEditorComponent implements OnInit {
       })
   }
 
-  maxLength(event) {
-    if (event.editor.getLength() > 100) {
-      event.editor.deleteText(10, event.editor.getLength())
+  checkLength() {    
+    let inputValue = this.editor.elementRef.nativeElement.innerText;
+
+    if (inputValue.length > this.maxLength) {
+        const slicedInputValue = inputValue.slice(0, this.maxLength)
+        inputValue = slicedInputValue;
+        this.editor.writeValue(inputValue)
     }
+    this.valueLength = inputValue.length;
   }
 
   onSubmit() {

@@ -1,5 +1,18 @@
 * {
     width: 100%;
     max-width: 500px;
+    margin-bottom: 20px;
+}
 
+.button {
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 4px 8px;
+    width: 70px;
+    text-align: center;
+
+    &:hover {
+        font-weight: 600;
+        cursor: pointer;
+    }
 }
