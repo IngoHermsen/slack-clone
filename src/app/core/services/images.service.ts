@@ -33,6 +33,6 @@ export class ImagesService implements OnInit {
   }
 
   showImg() {
-    return this.imgUrl
+    return this.imgUrl;
   }
 }

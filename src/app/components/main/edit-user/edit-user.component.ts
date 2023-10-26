@@ -4,7 +4,6 @@ import { getStorage, ref, getDownloadURL } from '@angular/fire/storage';
 import { FormControl, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { ImagesService } from 'src/app/core/services/images.service';
-import 'firebase/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
@@ -47,27 +46,29 @@ export class EditUserComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader;
       reader.onload = (e: any) => this.imgSrc = e.target.result;
-      reader.readAsDataURL(event.target.files[0])
-      this.selectedImage = event.target.files[0]
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImage = event.target.files[0];
     } else {
       this.imgSrc = './assets/avatar.png';
       this.selectedImage = null;
     }
+
   }
 
   submit(formValue: any) {
     this.isSubmitted = true;
     if (this.formTemplate.valid) {
       if (formValue.imageUrl != '') {
-        const filePath = `${this.uID}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}`;
+        const filePath = `${this.uID}/${this.selectedImage.name}`;
         const fileRef = this.storage.ref(filePath);
         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
           finalize(() => {
+
             fileRef.getDownloadURL().subscribe((url) => {
               formValue['imageUrl'] = url;
               this.updateLocalStorage(formValue)
               this.updateFirebase(formValue)
-              //this.service.insertImageDetails(formValue);
+              this.service.insertImageDetails(formValue);
               this.updateThreadsUserName(formValue)
             })
           })).subscribe();
@@ -122,18 +123,18 @@ export class EditUserComponent implements OnInit {
     let threadsId = []
     channelIds[0].forEach(element => {
       this.firestore
-      .collection('channels')
-      .doc(element.ID)
-      .collection('threads')
-      .valueChanges({idField: 'ID'})
-      .subscribe((changes) => {
-        threadsId.push(changes)
-        threadsId
-        this.firestore
+        .collection('channels')
+        .doc(element.ID)
         .collection('threads')
-        .doc
-      })
-      });
+        .valueChanges({ idField: 'ID' })
+        .subscribe((changes) => {
+          threadsId.push(changes)
+          threadsId
+          this.firestore
+            .collection('threads')
+            .doc
+        })
+    });
   }
 
 
