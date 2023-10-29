@@ -1,10 +1,10 @@
 <div class="wrapper">
-    <div class="header">
-        <h2 *ngFor="let name of userNames">{{ name }}</h2>
-    </div>
+    <div class="content">
+        <div class="header">
+            <h2 *ngFor="let name of userNames">{{ name }}</h2>
+        </div>
 
-    <div>
-        <div *ngFor="let message of messageData; let i = index" class="content">
+        <div *ngFor="let message of messageData; let i = index" class="messages">
             <div class="message-info">
                 <img src="{{ message.userImgUrl }}">
                 <div>
@@ -17,14 +17,11 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
+    <div class="editor">
+        <app-text-editor (submittedContent)="receiveEditorContent($event)"
+            [editorTitle]="'New Message:'"></app-text-editor>
+    </div>
 
-    <form class="editor" [formGroup]="editorForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <!-- <app-text-editor [] [editorTitle]="'New Message:'"></app-text-editor> -->
-        </div>
-
-    </form>
 </div>

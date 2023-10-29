@@ -18,6 +18,7 @@ export class ChatDetailComponent implements OnInit {
   chatData: Chat = new Chat;
   userNames = [];
   messageData = [];
+  textEditorContent: string = null;
 
   // Quill editor
   editorContent: string;
@@ -119,19 +120,18 @@ export class ChatDetailComponent implements OnInit {
   }
 
 
-  onSubmit() {
-    if (this.editorForm.get('editor').value != null) {
+  createNewMessage() {
       let user = JSON.parse(localStorage.getItem('user'));
       let reply = new ChatMessage({
         userName: user.displayName,
         userId: user.uid,
-        message: this.editorForm.get('editor').value,
+        message: this.textEditorContent,
         date: new Date,
         userImgUrl: user.userImgUrl
       })
       this.editorForm.reset();
       this.updateChatMessages(reply.toJson())
-    }
+    
   }
 
 
@@ -150,5 +150,9 @@ export class ChatDetailComponent implements OnInit {
     }
   }
 
+  receiveEditorContent(content) {
+    this.textEditorContent = content;    
+    this.createNewMessage()
+  }
 
 }
