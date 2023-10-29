@@ -6,18 +6,6 @@
     align-items: center;
     height: 100vh;
 
-    header {
-        font-size: 2.5rem;
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-
-        img {
-            max-height: 80px;
-            max-width: 50%;
-        }
-    }
-
     p-messages {
         position: absolute;
         top: 0;

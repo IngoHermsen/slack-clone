@@ -1,7 +1,6 @@
 <div class="opacity-delay auth-dialog card">
-
+    <header class="auth-logo"><img src="/assets/slack-logo.png" alt="slack-clone-logo"><span>Slack-Clone</span></header>
     <h1>Log in</h1>
-
     <form #loginForm="ngForm" (ngSubmit)="submitForm()" class="gap-1">
 
         <div class="card w-12 flex flex-column gap-3">
@@ -26,15 +25,7 @@
         </div>
 
         <div class="flex gap-3 manage-password">
-            <span class="remember-password">
-                <form class="align-items-center gap-1">
-                    <div class="flex align-items-center">
-                        <p-checkbox type="p-checkbox" name="remember-pw"
-                            class="mr-1" value="Remember password" inputId="pw"></p-checkbox>
-                        <label for="pw">Remember password</label>
-                    </div>
-                </form>
-            </span>
+            <span class="remember-password"></span>
             <a routerLink="/forgotPassword">Forgot password?</a>
         </div>
         <div class="buttons flex flex-column justify-content-center align-items-center login-buttons gap-2 mt-5 mb-5">
