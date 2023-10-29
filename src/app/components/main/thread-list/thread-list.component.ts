@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { from, map, mergeMap } from 'rxjs';
+import { Subscription, from, map, mergeMap } from 'rxjs';
 import { Thread } from 'src/app/core/models/thread.class';
 import { ChannelService } from 'src/app/core/services/channel.service';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
@@ -16,8 +16,11 @@ export class ThreadListComponent implements OnInit {
   threadsCollection: AngularFirestoreCollection;
   fullViewUpdate: boolean = false;
   newThread: Thread = null;
-  channelId: string;
+  @Input() channelId: string;
   @Input() channelList: boolean;
+
+  // Subscriptions
+  channelIdSubscription: Subscription;
 
   constructor(
     private channelService: ChannelService,
@@ -26,11 +29,14 @@ export class ThreadListComponent implements OnInit {
     private threadService: ThreadService,
 
   ) {
-
+    this.channelIdSubscription = this.channelService.channelId.subscribe((newId) => {
+      
+      this.channelId = newId;
+      this.initChannelList();
+    })
   }
 
   ngOnInit(): void {
-
     if (this.channelList) {
       this.initChannelList()
     } else {
@@ -46,7 +52,6 @@ export class ThreadListComponent implements OnInit {
 
 
   setThreadsCollection(channelId) {
-
     this.threadsCollection = this.firestore
       .collection('channels')
       .doc(channelId)
@@ -85,15 +90,10 @@ export class ThreadListComponent implements OnInit {
     this.threads.splice(i, 1)
   }
 
-  initChannelList() {
-    this.channelService.channelId.subscribe((channelId) => {
-      if (channelId != this.channelId) {
-        this.setThreadsCollection(channelId);
+  initChannelList() {    
+        this.setThreadsCollection(this.channelId);
         this.fullViewUpdate = true;
         this.subscribeThreads();
-      }
-    }
-    )
   }
 
   initFullList() {

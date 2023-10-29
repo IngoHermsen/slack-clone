@@ -16,7 +16,7 @@ export class ContentComponent implements OnInit {
     private threadService: ThreadService
   ) {
     let threadJSON = JSON.parse(localStorage.getItem('activeThread'));
-    if(threadJSON != null) {
+     if(threadJSON != null) {
       this.threadService.showThreadDetailsFromJSON(threadJSON);
     }
   }

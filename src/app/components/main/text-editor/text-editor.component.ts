@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -17,8 +17,9 @@ import 'quill-emoji/dist/quill-emoji.js';
   styleUrls: ['./text-editor.component.scss']
 })
 export class TextEditorComponent implements OnInit {
+  @Input() editorTitle: string;
+  @Output() submitEventContent: EventEmitter<string> = new EventEmitter();
   userDataSubscription: any;
-  @Input() usageContext: string;
   thrdObj: Thread;
   maxLength: number = 300;
   valueLength: number = 0;
@@ -86,35 +87,29 @@ export class TextEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getChannelId();
-    this.getChannelData();
-    this.threadService.activeThread.subscribe((threadObject) => {
-      if (this.usageContext == 'reply') {
-        this.thrdObj = threadObject;
-      }
-    })
+
   }
 
 
   sendMessage() {
   }
 
-  getChannelId() {
-    this.route.params.subscribe(params => {
-      this.channelId = params['id'];
-      this.channelService.channelId.next(this.channelId);
-    })
-  }
+  // getChannelId() {
+  //   this.route.params.subscribe(params => {
+  //     this.channelId = params['id'];
+  //     this.channelService.channelId.next(this.channelId);
+  //   })
+  // }
 
-  getChannelData() {
-    this.firestore
-      .collection('channels')
-      .doc(this.channelId)
-      .valueChanges()
-      .subscribe((data: any) => {
-        this.channelData = new Channel(data);
-      })
-  }
+  // getChannelData() {
+  //   this.firestore
+  //     .collection('channels')
+  //     .doc(this.channelId)
+  //     .valueChanges()
+  //     .subscribe((data: any) => {
+  //       this.channelData = new Channel(data);
+  //     })
+  // }
 
   checkInputLength() {    
     let inputValue = this.editor.elementRef.nativeElement.innerText;
@@ -128,45 +123,47 @@ export class TextEditorComponent implements OnInit {
   }
 
   onSubmit() {
-     if (this.usageContext == 'reply') {
-      this.createNewReply();
-    } else {
-      this.createNewThread()
-    }
+    this.submitEventContent.emit(this.editorForm.get('editor').value)
+
+    //  if (this.usageContext == 'reply') {
+    //   this.createNewReply();
+    // } else {
+    //   this.createNewThread()
+    // }
 
     this.editorForm.reset();
 
   }
 
-  createNewThread() {
-    let user = JSON.parse(localStorage.getItem('user'));
+  // createNewThread() {
+  //   let user = JSON.parse(localStorage.getItem('user'));
 
-    let thread = new Thread(
-      {
-        channelId: this.channelId,
-        tId: '',
-        userId: user.uid,
-        userName: user.displayName,
-        message: this.editorForm.get('editor').value,
-        creationTime: new Date(),
-        isReply: false
-      }
-    )
+  //   let thread = new Thread(
+  //     {
+  //       channelId: this.channelId,
+  //       tId: '',
+  //       userId: user.uid,
+  //       userName: user.displayName,
+  //       message: this.editorForm.get('editor').value,
+  //       creationTime: new Date(),
+  //       isReply: false
+  //     }
+  //   )
 
-    this.updateThreadsOfChannel(thread.toJSON())
+  //   this.updateThreadsOfChannel(thread.toJSON())
 
-    return thread;
-  }
+  //   return thread;
+  // }
 
-  updateThreadsOfChannel(thread: any) {
-    this.channelService.collectionRef.doc(this.channelId)
-      .collection('threads').add(thread)
-      .then((docRef) => {
-        docRef.update({ tId: docRef.id })
-        thread.tId = docRef.id;
-        this.threadService.newThread.next(thread)
-      })
-  }
+  // updateThreadsOfChannel(thread: any) {
+  //   this.channelService.collectionRef.doc(this.channelId)
+  //     .collection('threads').add(thread)
+  //     .then((docRef) => {
+  //       docRef.update({ tId: docRef.id })
+  //       thread.tId = docRef.id;
+  //       this.threadService.newThread.next(thread)
+  //     })
+  // }
 
   createNewReply() {
     let user = JSON.parse(localStorage.getItem('user'));

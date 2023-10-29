@@ -29,7 +29,7 @@ export class ChannelDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(params => {  
       this.channelId = params['id'];
       this.getChannel();
       this.channelService.channelId.next(this.channelId);
@@ -37,13 +37,11 @@ export class ChannelDetailComponent implements OnInit {
   }
 
   getChannel() {
-
     this.firestore
       .collection('channels')
       .doc(this.channelId)
       .valueChanges()
-      .subscribe((channelData: any) => {
-
+      .subscribe((channelData: any) => {   
         this.channelData = new Channel(channelData); 
       })
   }

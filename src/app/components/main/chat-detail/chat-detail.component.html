@@ -23,13 +23,7 @@
 
     <form class="editor" [formGroup]="editorForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <quill-editor [style]="editorStyle" [modules]="config" (onContentChanged)="maxLength($event)"
-                formControlName="editor">
-                <button mat-button>Submit</button>
-            </quill-editor>
-            <span *ngIf="editorForm.get('editor').value != null">{{ 1000 - editorForm.get('editor').value.length
-                }}</span>
-            <button mat-button [ngClass]="editorForm.get('editor').value != null ? 'active': 'inactive'">Submit</button>
+            <app-text-editor [] [editorTitle]="'New Message:'"></app-text-editor>
         </div>
 
     </form>

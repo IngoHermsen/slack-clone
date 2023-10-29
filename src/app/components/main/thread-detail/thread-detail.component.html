@@ -20,5 +20,5 @@
         </div>
     </div>
     <!-- footer -->
-    <app-text-editor [usageContext]="textEditorContext"></app-text-editor>
+    <app-text-editor (submitEventContent)="receiveTextContent($event)" [editorTitle]="'New Reply'"></app-text-editor>
 </div>

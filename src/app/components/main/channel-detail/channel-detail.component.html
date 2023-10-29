@@ -3,8 +3,8 @@
     <h2>{{ channelData.name }}</h2>
     <!-- content -->
     <article class="channel-content">
-        <app-thread-list [channelList]="true"></app-thread-list>
+        <app-thread-list [channelId]="channelId" [channelList]="true"></app-thread-list>
     </article>
     <!-- footer -->
-    <app-text-editor></app-text-editor>
+    <app-text-editor [editorTitle]="'New Thread'"></app-text-editor>
 </div>
