@@ -5,9 +5,9 @@ import { Timestamp } from '@angular/fire/firestore';
 import { ThreadService } from 'src/app/core/services/thread.service';
 import { AngularFirestore, DocumentData } from '@angular/fire/compat/firestore';
 import { User } from 'src/app/core/models/user.class';
-import { audit, from, map, mergeMap } from 'rxjs';
+import { from, map, mergeMap } from 'rxjs';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
-import { InputText } from 'primeng/inputtext';
+
 
 @Component({
   selector: 'app-thread',

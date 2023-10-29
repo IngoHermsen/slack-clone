@@ -4,10 +4,12 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Channel } from 'src/app/core/models/channel.class';
 import { Thread } from 'src/app/core/models/thread.class';
-import 'quill-emoji/dist/quill-emoji.js';
 import { ChannelService } from 'src/app/core/services/channel.service';
 import { ThreadService } from 'src/app/core/services/thread.service';
 import { QuillEditorComponent } from 'ngx-quill';
+import 'quill-emoji/dist/quill-emoji.js';
+
+
 
 @Component({
   selector: 'app-text-editor',
@@ -21,6 +23,44 @@ export class TextEditorComponent implements OnInit {
   maxLength: number = 300;
   valueLength: number = 0;
   editorForm: FormGroup;
+
+  channelId: string = '';
+  channelData: Channel = new Channel;
+
+  // Quill Editor
+  editorContent;
+
+  editorStyle = {
+    height: '200px',
+  }
+
+  moduleConfig = {
+    'emoji-toolbar': true,
+    'emoji-textarea': true,
+    'emoji-shortname': true,
+    toolbar: {
+      container: [
+      ['bold', 'italic', 'underline'],
+      ['code-block'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link']
+    ],
+    handlers: { 'emoji': function () { } },
+    keyboard: {
+      bindings: {
+        ctrl_enter: {
+          key: 13,
+          ctrlKey: true,
+          handler: () => {
+            this.sendMessage();
+          },
+        },
+      },
+    },
+  }
+}
+
+  // END
 
   buttonDisabled: boolean = false;
 
@@ -55,40 +95,6 @@ export class TextEditorComponent implements OnInit {
     })
   }
 
-  channelId: string = '';
-  channelData: Channel = new Channel;
-
-  editorContent: string;
-
-  editorStyle = {
-    height: '200px',
-  }
-
-
-
-  config = {
-    toolbar: [
-      ['bold', 'italic', 'underline'],
-      ['code-block'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['emoji'],
-      ['link']
-    ],
-    'emoji-toolbar': true,
-    'emoji-textarea': false,
-    'emoji-shortname': true,
-    keyboard: {
-      bindings: {
-        ctrl_enter: {
-          key: 13,
-          ctrlKey: true,
-          handler: () => {
-            this.sendMessage();
-          },
-        },
-      },
-    },
-  }
 
   sendMessage() {
   }
@@ -110,9 +116,7 @@ export class TextEditorComponent implements OnInit {
       })
   }
 
-  checkInput() {
-    console.log('EDITOR FORM', this.editorForm);
-
+  checkInputLength() {    
     let inputValue = this.editor.elementRef.nativeElement.innerText;
 
     if (inputValue.length > this.maxLength) {
@@ -124,15 +128,13 @@ export class TextEditorComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('submit');
-    
-    // if (this.usageContext == 'reply') {
-    //   this.createNewReply();
-    // } else {
-    //   this.createNewThread()
-    // }
+     if (this.usageContext == 'reply') {
+      this.createNewReply();
+    } else {
+      this.createNewThread()
+    }
 
-    // this.editorForm.reset();
+    this.editorForm.reset();
 
   }
 

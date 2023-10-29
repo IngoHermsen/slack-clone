@@ -14,13 +14,30 @@ import { Chat } from 'src/app/core/models/chats.class';
   providers: [DatePipe],
 })
 export class ChatDetailComponent implements OnInit {
-
   chatId: string = '';
   chatData: Chat = new Chat;
   userNames = [];
   messageData = [];
-  // message = [];
-  // allMessages = [];
+
+  // Quill editor
+  editorContent: string;
+  editorForm: FormGroup;
+  editorStyle = {
+    height: '200px',
+    color: 'white'
+  }
+
+  config = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],
+      ['code-block'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['emoji'],
+      ['link']
+    ]
+  }
+
+  // END 
 
   constructor(
     private route: ActivatedRoute,
@@ -85,7 +102,6 @@ export class ChatDetailComponent implements OnInit {
     this.messageData.forEach(element => {
       let message = element.message.slice(3, -4)
       element.message = message;
-      //this.allMessages.push(message)
     });
   }
 
@@ -102,22 +118,6 @@ export class ChatDetailComponent implements OnInit {
     this.userNames.push(this.chatData.chatName)
   }
 
-  editorContent: string;
-  editorForm: FormGroup;
-  editorStyle = {
-    height: '200px',
-    color: 'white'
-  }
-
-  config = {
-    toolbar: [
-      ['bold', 'italic', 'underline'],
-      ['code-block'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['emoji'],
-      ['link']
-    ]
-  }
 
   onSubmit() {
     if (this.editorForm.get('editor').value != null) {
@@ -143,6 +143,7 @@ export class ChatDetailComponent implements OnInit {
       .add(reply)
   }
 
+  
   maxLength(event) {
     if (event.editor.getLength() > 1000) {
       event.editor.deleteText(1000, event.editor.getLength())

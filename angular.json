@@ -33,7 +33,12 @@
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss",
               "src/primeNg.scss",
-              "src/fonts.scss"
+              "src/fonts.scss",
+              "./node_modules/quill/dist/quill.core.css",
+              "./node_modules/quill/dist/quill.bubble.css",
+              "./node_modules/quill/dist/quill.snow.css",
+              "./node_modules/quill-emoji/dist/quill-emoji.css",
+              "./node_modules/quill-mention/dist/quill.mention.min.css"
             ],
             "scripts": []
           },
