@@ -30,7 +30,6 @@ export class ThreadListComponent implements OnInit {
 
   ) {
     this.channelIdSubscription = this.channelService.channelId.subscribe((newId) => {
-      
       this.channelId = newId;
       this.initChannelList();
     })
@@ -52,10 +51,13 @@ export class ThreadListComponent implements OnInit {
 
 
   setThreadsCollection(channelId) {
-    this.threadsCollection = this.firestore
-      .collection('channels')
-      .doc(channelId)
-      .collection('threads');
+    if (channelId) {
+      this.threadsCollection = this.firestore
+        .collection('channels')
+        .doc(channelId)
+        .collection('threads');
+    }
+
   }
 
   subscribeThreads() {
@@ -90,10 +92,10 @@ export class ThreadListComponent implements OnInit {
     this.threads.splice(i, 1)
   }
 
-  initChannelList() {    
-        this.setThreadsCollection(this.channelId);
-        this.fullViewUpdate = true;
-        this.subscribeThreads();
+  initChannelList() {
+    this.setThreadsCollection(this.channelId);
+    this.fullViewUpdate = true;
+    this.subscribeThreads();
   }
 
   initFullList() {

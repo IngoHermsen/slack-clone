@@ -9,6 +9,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 export class ThreadService implements OnInit {
   activeThread = new BehaviorSubject(new Thread);
   newThread: Subject<Thread> = new Subject;
+  newReply: Subject<Thread> = new Subject;
   deletedThreadId: Subject<number> = new Subject;
   userHasThreads: Subject<boolean> = new Subject;
 

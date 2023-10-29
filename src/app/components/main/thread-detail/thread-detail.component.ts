@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription, map } from 'rxjs';
 import { Channel } from 'src/app/core/models/channel.class';
 import { Thread } from 'src/app/core/models/thread.class';
@@ -15,7 +15,7 @@ import { ThreadService } from 'src/app/core/services/thread.service';
 })
 export class ThreadDetailComponent implements OnInit {
   @Output() avatarImgPath: string;
-  @Input() textEditorValue: string
+  @Input() textEditorValue: string = null;
   thrdObj: Thread = new Thread;
   textEditorContext: string = 'reply';
   answers: Array<any> = [];
@@ -33,34 +33,30 @@ export class ThreadDetailComponent implements OnInit {
     public threadService: ThreadService,
     public channelService: ChannelService,
     private firestore: AngularFirestore,
-    private route: ActivatedRoute,
   
   ) {
     this.thrdObj = threadService.activeThread.getValue();
+    this.channelId = this.thrdObj.channelId;    
+    
   }
 
   ngOnInit(): void {
-    this.threadService.activeThread.subscribe((threadObject) => {
+    this.threadService.activeThread.subscribe((threadObject) => {      
       this.thrdObj = threadObject;
       this.getAnswers(threadObject)
       this.updateAvatar(threadObject.userId);
     })
-    
-    this.routeSubscription = this.route.params.subscribe(params => {
-      this.channelId = params['id'];
-      this.channelService.channelId.next(this.channelId);
-      this.getChannelData()
-    })
 
   }
 
-  getChannelData() {
+  getChannelData() {   
     this.firestore
       .collection('channels')
-      .doc(this.channelId)
+      .doc()
       .valueChanges()
       .subscribe((data: any) => {
         this.channelData = new Channel(data);
+  
       })
   }
 
@@ -92,10 +88,10 @@ export class ThreadDetailComponent implements OnInit {
       })
   }
 
-  createNewThread() {
+  createNewReply() {
     let user = JSON.parse(localStorage.getItem('user'));
 
-    let thread = new Thread(
+    let reply = new Thread(
       {
         channelId: this.channelId,
         tId: '',
@@ -103,28 +99,31 @@ export class ThreadDetailComponent implements OnInit {
         userName: user.displayName,
         message: this.textEditorValue,
         creationTime: new Date(),
-        isReply: false
+        isReply: true
       }
     )
 
-    this.updateThreadsOfChannel(thread.toJSON())
+    this.updateRepliesOfThread(reply.toJSON())
 
-    return thread;
+    return reply;
   }
 
-  updateThreadsOfChannel(thread: any) {
+  updateRepliesOfThread(reply: any) {    
     this.channelService.collectionRef.doc(this.channelId)
-      .collection('threads').add(thread)
+      .collection('threads')
+      .doc(this.thrdObj.tId)
+      .collection('answers')
+      .add(reply)
       .then((docRef) => {
         docRef.update({ tId: docRef.id })
-        thread.tId = docRef.id;
-        this.threadService.newThread.next(thread)
+        reply.tId = docRef.id;
+        this.threadService.newReply.next(reply)
       })
   }
 
-  receiveTextContent(content: string) {
-    this.textEditorValue = content;
-    this.createNewThread()
+  receiveEditorContent(content) {
+    this.textEditorValue = content;    
+    this.createNewReply()
   }
 }
 

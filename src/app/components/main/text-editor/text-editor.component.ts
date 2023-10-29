@@ -18,7 +18,7 @@ import 'quill-emoji/dist/quill-emoji.js';
 })
 export class TextEditorComponent implements OnInit {
   @Input() editorTitle: string;
-  @Output() submitEventContent: EventEmitter<string> = new EventEmitter();
+  @Output() submittedContent = new EventEmitter<string>(true);
   userDataSubscription: any;
   thrdObj: Thread;
   maxLength: number = 300;
@@ -122,15 +122,16 @@ export class TextEditorComponent implements OnInit {
     this.valueLength = inputValue.length;
   }
 
-  onSubmit() {
-    this.submitEventContent.emit(this.editorForm.get('editor').value)
-
+  onSubmit() {  
+    let editorValue = this.editorForm.get('editor').value;  
+    this.submittedContent.emit(editorValue)
+    
     //  if (this.usageContext == 'reply') {
     //   this.createNewReply();
     // } else {
     //   this.createNewThread()
     // }
-
+    
     this.editorForm.reset();
 
   }

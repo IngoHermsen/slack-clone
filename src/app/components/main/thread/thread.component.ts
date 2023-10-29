@@ -149,6 +149,7 @@ export class ThreadComponent implements OnInit {
   showDetails(threadObject) {
     localStorage.setItem('activeThread', JSON.stringify(threadObject));
     this.threadService.activeThread.next(threadObject);
+    
   }
 
   deleteThis() {
