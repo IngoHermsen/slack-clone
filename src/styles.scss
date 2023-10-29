@@ -1,7 +1,5 @@
-@import "~quill/dist/quill.core.css";
-@import "~quill/dist/quill.bubble.css";
-@import "~quill/dist/quill.snow.css";
 
+@import "~quill/dist/quill.snow.css";
 
 * {
     font-family: 'Lato';
@@ -27,12 +25,17 @@
 
 quill-editor {
     height: 120px !important;
-    color: white;
 
-    .ql-editor.ql-blank::before {
-        color: white !important;
+    .ql-editor {
+
+        color: black;
+    }
+    
+    .ql-snow {
+        background-color: rgba(255,255,255,0.6) !important;
     }
 }
+
 
 
 a {

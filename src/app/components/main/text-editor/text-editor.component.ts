@@ -1,6 +1,6 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Channel } from 'src/app/core/models/channel.class';
 import { Thread } from 'src/app/core/models/thread.class';
@@ -20,24 +20,36 @@ export class TextEditorComponent implements OnInit {
   thrdObj: Thread;
   maxLength: number = 300;
   valueLength: number = 0;
+  editorForm: FormGroup;
+
+  buttonDisabled: boolean = false;
+
 
   @ViewChild('editor') editor: QuillEditorComponent;
+
 
   constructor(
     private route: ActivatedRoute,
     private firestore: AngularFirestore,
     public channelService: ChannelService,
     private threadService: ThreadService,
-  ) {}
+  ) {
+    this.editorForm = new FormGroup({
+      editor: new FormControl('', {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+        ]
+      }),
+    }
+    );
+  }
 
   ngOnInit(): void {
-    this.editorForm = new FormGroup({
-      'editor': new FormControl(null)
-    });
     this.getChannelId();
     this.getChannelData();
     this.threadService.activeThread.subscribe((threadObject) => {
-      if(this.usageContext == 'reply') {
+      if (this.usageContext == 'reply') {
         this.thrdObj = threadObject;
       }
     })
@@ -47,10 +59,12 @@ export class TextEditorComponent implements OnInit {
   channelData: Channel = new Channel;
 
   editorContent: string;
-  editorForm: FormGroup;
+
   editorStyle = {
     height: '200px',
   }
+
+
 
   config = {
     toolbar: [
@@ -96,31 +110,35 @@ export class TextEditorComponent implements OnInit {
       })
   }
 
-  checkLength() {    
+  checkInput() {
+    console.log('EDITOR FORM', this.editorForm);
+
     let inputValue = this.editor.elementRef.nativeElement.innerText;
 
     if (inputValue.length > this.maxLength) {
-        const slicedInputValue = inputValue.slice(0, this.maxLength)
-        inputValue = slicedInputValue;
-        this.editor.writeValue(inputValue)
+      const slicedInputValue = inputValue.slice(0, this.maxLength)
+      inputValue = slicedInputValue;
+      this.editor.writeValue(inputValue)
     }
     this.valueLength = inputValue.length;
   }
 
   onSubmit() {
-    if(this.usageContext == 'reply') {
-      this.createNewReply();
-    } else {
-      this.createNewThread()
-    }
+    console.log('submit');
+    
+    // if (this.usageContext == 'reply') {
+    //   this.createNewReply();
+    // } else {
+    //   this.createNewThread()
+    // }
 
-    this.editorForm.reset();
+    // this.editorForm.reset();
 
   }
 
   createNewThread() {
     let user = JSON.parse(localStorage.getItem('user'));
-   
+
     let thread = new Thread(
       {
         channelId: this.channelId,
@@ -132,7 +150,7 @@ export class TextEditorComponent implements OnInit {
         isReply: false
       }
     )
-  
+
     this.updateThreadsOfChannel(thread.toJSON())
 
     return thread;
@@ -150,7 +168,7 @@ export class TextEditorComponent implements OnInit {
 
   createNewReply() {
     let user = JSON.parse(localStorage.getItem('user'));
-   
+
     let reply = new Thread(
       {
         channelId: this.thrdObj.tId,
@@ -162,7 +180,7 @@ export class TextEditorComponent implements OnInit {
         isReply: true
       }
     )
-  
+
     this.updateRepliesOfThread(reply.toJSON())
 
     return reply;
@@ -170,7 +188,7 @@ export class TextEditorComponent implements OnInit {
 
   updateRepliesOfThread(reply: any) {
 
-      this.channelService.collectionRef.doc(this.thrdObj.channelId)
+    this.channelService.collectionRef.doc(this.thrdObj.channelId)
       .collection('threads')
       .doc(reply.channelId)
       .collection('answers')
@@ -179,7 +197,4 @@ export class TextEditorComponent implements OnInit {
         docRef.update({ tId: docRef.id })
       })
   }
-
-
-  
 }

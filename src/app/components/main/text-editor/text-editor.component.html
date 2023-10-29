@@ -3,9 +3,9 @@
 
 <form [formGroup]="editorForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-        <label for="title"><h3>New Thread</h3></label>
-        <quill-editor [style]="editorStyle" [modules]="config" (onContentChanged)="checkLength()" formControlName="editor" #editor></quill-editor>
+        <label for="title"><h3>New Thread:</h3></label>
+        <quill-editor class="editor" [modules]="config" formControlName="editor" #editor></quill-editor>
         <span>{{ maxLength - valueLength }}</span>
     </div>
-    <div class="submit button">Submit</div>
+    <button [disabled]="editorForm.invalid" type="ngSubmit" class="submit-button">Submit</button>
 </form>

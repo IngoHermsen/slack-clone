@@ -102,24 +102,6 @@ export class ChatDetailComponent implements OnInit {
     this.userNames.push(this.chatData.chatName)
   }
 
-  /*
-    getUserImgUrl() {
-      const userIds = [];
-      this.messageData.forEach(element => {
-        userIds.push(element.userId)
-      });
-      userIds.forEach(element => {
-        this.firestore
-          .collection('users')
-          .doc(element)
-          .valueChanges()
-          .subscribe((changes: any) => {
-            this.userImgUrl.push(changes.userImgUrl)
-          })
-      });
-    }
-  */
-
   editorContent: string;
   editorForm: FormGroup;
   editorStyle = {
