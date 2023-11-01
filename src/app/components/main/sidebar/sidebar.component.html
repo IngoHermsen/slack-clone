@@ -1,33 +1,40 @@
 <div class="sidebar">
-    <div class="head">
-        <img src="./assets/slack-logo.png">
-        <h2>Slack Clone</h2>
-        <span class="pi  pi-pencil" routerLink="/createChat"></span>
+    <div class="navigation">
+        <div class="head">
+            <img src="./assets/slack-logo.png">
+            <h2>Slack Clone</h2>
+            <span class="pi  pi-pencil" routerLink="/createChat"></span>
+        </div>
+        <div class="menu">
+            <div class="headline" routerLink="/threads">
+                <span class="pi pi-comments"></span>
+                <h3>Threads</h3>
+            </div>
+            <div class="headline" routerLink="/users">
+                <span class="pi pi-users"></span>
+                <h3>Users</h3>
+            </div>
+        </div>
+        <div class="menu">
+            <div (click)="toggleChannels()" class="headline">
+                <span [className]="channels ? 'active pi pi-chevron-right' : 'inactive pi pi-chevron-right'"></span>
+                <h3>Channels</h3>
+            </div>
+            <div>
+                <app-channels *ngIf="channels"></app-channels>
+            </div>
+            <div (click)="toggleMessages()" class="headline">
+                <span [className]="messages ? 'active pi pi-chevron-right' : 'inactive pi pi-chevron-right'"></span>
+                <h3>Direct Messages</h3>
+            </div>
+            <div>
+                <app-direct-messages *ngIf="messages"></app-direct-messages>
+            </div>
+        </div>
     </div>
-    <div class="menu">
-        <div class="headline" routerLink="/threads">
-            <span class="pi pi-comments"></span>
-           <h3>Threads</h3>
-        </div>
-        <div class="headline" routerLink="/users">
-            <span class="pi pi-users"></span>
-            <h3>Users</h3>
-        </div>
+    <div class="legals">
+        <div class="privacy-policy" routerLink="privacy-policy">Privacy Policy</div>
+        <div class="legal-notice" routerLink="legal-notice">Legal Notice</div>
     </div>
-    <div class="menu">
-        <div (click)="toggleChannels()" class="headline">
-            <span [className]="channels ? 'active pi pi-chevron-right' : 'inactive pi pi-chevron-right'"></span>
-            <h3>Channels</h3>
-        </div>
-        <div>
-            <app-channels  *ngIf="channels"></app-channels>
-        </div>
-        <div (click)="toggleMessages()" class="headline">
-            <span [className]="messages ? 'active pi pi-chevron-right' : 'inactive pi pi-chevron-right'"></span>
-            <h3>Direct Messages</h3>
-        </div>
-        <div>
-            <app-direct-messages *ngIf="messages"></app-direct-messages>
-        </div>
-    </div>
+
 </div>

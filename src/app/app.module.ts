@@ -80,6 +80,8 @@ import { ChatDetailComponent } from './components/main/chat-detail/chat-detail.c
 import { ThreadListComponent } from './components/main/thread-list/thread-list.component';
 import { ThreadOverviewComponent } from './components/main/thread-overview/thread-overview.component';
 import { ClickOutsideDirective } from './core/directives/click-outside.directive';
+import { PrivacyPolicyComponent } from './components/main/privacy-policy/privacy-policy.component';
+import { LegalNoticeComponent } from './components/main/legal-notice/legal-notice.component';
 
 
 
@@ -108,6 +110,8 @@ import { ClickOutsideDirective } from './core/directives/click-outside.directive
     ThreadListComponent,
     ThreadOverviewComponent,
     ClickOutsideDirective,
+    PrivacyPolicyComponent,
+    LegalNoticeComponent,
 
     
   ],

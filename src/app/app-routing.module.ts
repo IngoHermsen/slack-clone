@@ -11,9 +11,11 @@ import { CreateChannelComponent } from './components/main/create-channel/create-
 import { CreateChatComponent } from './components/main/create-chat/create-chat.component';
 import { ChatDetailComponent } from './components/main/chat-detail/chat-detail.component';
 import { ThreadOverviewComponent } from './components/main/thread-overview/thread-overview.component';
+import { PrivacyPolicyComponent } from './components/main/privacy-policy/privacy-policy.component';
+import { LegalNoticeComponent } from './components/main/legal-notice/legal-notice.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'auth/login', pathMatch: 'full'},
+  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
   {
     path: '', component: AuthComponent, children: [
       { path: 'auth/login', component: LoginDialogComponent },
@@ -31,6 +33,8 @@ const routes: Routes = [
       { path: 'users', component: CreateChatComponent },
       { path: 'chat/:id', component: ChatDetailComponent },
       { path: 'threads', component: ThreadOverviewComponent },
+      { path: 'privacy-policy', component: PrivacyPolicyComponent },
+      { path: 'legal-notice', component: LegalNoticeComponent }
     ]
   },
 ];
