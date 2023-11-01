@@ -33,7 +33,6 @@ export class ChatDetailComponent implements OnInit {
       ['bold', 'italic', 'underline'],
       ['code-block'],
       [{ list: 'ordered' }, { list: 'bullet' }],
-      ['emoji'],
       ['link']
     ]
   }

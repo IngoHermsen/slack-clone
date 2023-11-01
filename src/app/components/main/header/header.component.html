@@ -13,28 +13,15 @@
             </mat-form-field>
         </form>
     </mat-card>
-
-    <!-- <button mat-button [matMenuTriggerFor]="menu"><mat-icon>settings_accessibility</mat-icon></button> -->
     <div clickOutside (clickOutside)="clickedOutside()">
         <button mat-button (click)="openMenu=!openMenu">
             <mat-icon>settings_accessibility</mat-icon>
         </button>
-
-
         <div *ngIf="openMenu" class="menu">
             <div>
                 <button mat-button (click)="openDialog()">Settings</button>
-                <button mat-button routerLink="/legal">Legal</button>
                 <button mat-button (click)="authService.SignOut()">Logout</button>
             </div>
         </div>
     </div>
-
-
-    <!-- <mat-menu #menu="matMenu" class="menu">
-        <button class="menu-btn" mat-menu-item  (click)="openDialog()">Settings</button>
-        <button class="menu-btn" mat-menu-item routerLink="/legal">Legal</button>
-        <button class="menu-btn" (click)="authService.SignOut()" mat-menu-item>Logout</button>
-    </mat-menu> -->
-
 </div>

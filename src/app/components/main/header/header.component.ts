@@ -12,6 +12,9 @@ import { debounceTime, fromEvent } from 'rxjs';
 
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
+  opened: boolean = false;
+  openMenu: boolean = false;
+
   @ViewChild('searchInput') searchInput: ElementRef;
 
   source: any;
@@ -23,26 +26,24 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-
+    this.opened = window.innerWidth > 700;
   }
 
   ngAfterViewInit(): void {
     const keyUpEvent$ = fromEvent(this.searchInput.nativeElement, 'keyup')
-    
+
     keyUpEvent$.pipe(debounceTime(300))
-      .subscribe(() => {        
+      .subscribe(() => {
         this.search()
       })
   }
 
-  opened: boolean = true;
-  openMenu: boolean = false;
 
   @Output()
   sidenavToggled: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   onSidenavToggled() {
-   this.opened = !this.opened
+    this.opened = !this.opened
     this.sidenavToggled.emit(this.opened)
   }
 
@@ -51,9 +52,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   search() {
-    const inputValue = this.searchInput.nativeElement.value;        
+    const inputValue = this.searchInput.nativeElement.value;
     this.searchService.searchValue.next(inputValue);
-    
+
   }
 
 

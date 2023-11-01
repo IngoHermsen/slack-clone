@@ -24,7 +24,6 @@ const routes: Routes = [
     ]
   },
   { path: 'main', component: MainComponent },
-  { path: 'legal', component: LegalComponent },
 
   {
     path: '', component: MainComponent, children: [

@@ -36,9 +36,7 @@ export class TextEditorComponent implements OnInit {
   }
 
   moduleConfig = {
-    'emoji-toolbar': true,
-    'emoji-textarea': true,
-    'emoji-shortname': true,
+
     toolbar: {
       container: [
       ['bold', 'italic', 'underline'],
@@ -46,7 +44,7 @@ export class TextEditorComponent implements OnInit {
       [{ list: 'ordered' }, { list: 'bullet' }],
       ['link']
     ],
-    handlers: { 'emoji': function () { } },
+ 
     keyboard: {
       bindings: {
         ctrl_enter: {
